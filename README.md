@@ -6,7 +6,7 @@ Currently working for **Firebot 5.67**, which is currently under beta. (They jus
 
 ### Installing
 
-Download the javascript file in (Releases)[https://github.com/Oldrego/firebot-veadotube-bridge/releases], go to `Tools > Plugin Manager` within Firebot, and click on `Install From File`. Select the javascript file you downloaded.
+Download the javascript file in [Releases](https://github.com/Oldrego/firebot-veadotube-bridge/releases), go to `Tools > Plugin Manager` within Firebot, and click on `Install From File`. Select the javascript file you downloaded.
 
 ### Building
 
