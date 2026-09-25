@@ -1,4 +1,4 @@
-<img width="800" height="800" alt="scream" src="https://github.com/user-attachments/assets/e579de87-a839-41f3-a839-b1359d81819a" />
+<img width="400" height="400" alt="scream" src="https://github.com/user-attachments/assets/e579de87-a839-41f3-a839-b1359d81819a" />
 
 # Firebot-Veadotube Bridge
 
