@@ -1,3 +1,5 @@
+<img width="800" height="800" alt="scream" src="https://github.com/user-attachments/assets/e579de87-a839-41f3-a839-b1359d81819a" />
+
 # Firebot-Veadotube Bridge
 
 This is a simple plugin for [Firebot](https://firebot.app/) that allows it to communicate with [Veadotube](https://veado.tube/). (Yes, the full one.)
