@@ -18,7 +18,7 @@ const plugin: Plugin<Params> = {
       name: "fa-paw",
       color: "#AD1818",
     },
-    version: "1.0.0",
+    version: "1.0.1",
     author: "Oldrego",
     minimumFirebotVersion: { major: 5, minor: 67 }
   },

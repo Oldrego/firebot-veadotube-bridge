@@ -2,7 +2,7 @@ import type { EffectType } from "@crowbartools/firebot-types";
 import { veadotubeController } from "../integration";
 import firebot from "@crowbartools/firebot-types";
 
-type Model = { instanceName: string; nodeId: string; value: boolean };
+type Model = { instanceName: string; nodeId: string; value: boolean | string };
 
 export const setBooleanEffect: EffectType<Model> = {
   definition: {
@@ -22,10 +22,7 @@ export const setBooleanEffect: EffectType<Model> = {
       <input type="text" class="form-control" ng-model="effect.nodeId">
     </eos-container>
     <eos-container header="Value" pad-top="true">
-      <label class="control-fb control--checkbox">
-        <input type="checkbox" ng-model="effect.value">
-        <div class="control__indicator"></div>
-      </label>
+      <input type="text" class="form-control" ng-model="effect.value" replace-variables>
     </eos-container>
   `,
   optionsValidator: (effect) => {
@@ -34,7 +31,7 @@ export const setBooleanEffect: EffectType<Model> = {
     if (!effect.nodeId) {
       errors.push("Please enter a node Id.");
     }
-    if (typeof effect.value !== "boolean") {
+    if (!effect.value) {
       errors.push("Please enter a value.");
     }
     return errors;
@@ -51,7 +48,20 @@ export const setBooleanEffect: EffectType<Model> = {
       return {success: false};
     }
 
-    instance.setBoolean(effect.nodeId, effect.value);
+    let value;
+
+    if (effect.value === "true" || effect.value === true || effect.value === "1") {
+      value = true;
+    }
+    else if (effect.value === "false" || effect.value === false || effect.value === "0") {
+      value = false;
+    }
+    else {
+      firebot.logger.warn(`Invalid boolean value: ${effect.value}`);
+      return { success: false };
+    }
+
+    instance.setBoolean(effect.nodeId, value);
     return {success: true}
   }
 };

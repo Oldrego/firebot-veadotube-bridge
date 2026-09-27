@@ -28,7 +28,7 @@ export const toggleStateEffect: EffectType<Model> = {
     </eos-container>
 
     <eos-container header="State Id" pad-top="true">
-      <input type="text" class="form-control" ng-model="effect.value">
+      <input type="text" class="form-control" ng-model="effect.value" replace-variables>
     </eos-container>
   `,
   optionsValidator: (effect) => {

@@ -5,9 +5,9 @@ import firebot from "@crowbartools/firebot-types";
 type Model = {
   instanceName: string;
   nodeId: string;
-  value: number;
-  min?: number | null;
-  max?: number | null;
+  value: number | string;
+  min?: number | string | null;
+  max?: number | string | null;
 };
 
 export const addNumberEffect: EffectType<Model> = {
@@ -30,16 +30,16 @@ export const addNumberEffect: EffectType<Model> = {
     </eos-container>
 
     <eos-container header="Added Value" pad-top="true">
-      <input type="number" class="form-control" ng-model="effect.value" placeholder="0">
+      <input type="text" class="form-control" ng-model="effect.value" replace-variables>
     </eos-container>
 
     <eos-container header="Range (optional)" pad-top="true">
       <div class="row">
         <div class="col-sm-6">
-          <input type="number" class="form-control" ng-model="effect.min" placeholder="Minimum">
+          <input type="text" class="form-control" ng-model="effect.min" placeholder="Minimum" replace-variables>
         </div>
         <div class="col-sm-6">
-          <input type="number" class="form-control" ng-model="effect.max" placeholder="Maximum">
+          <input type="text" class="form-control" ng-model="effect.max" placeholder="Maximum" replace-variables>
         </div>
       </div>
       <p class="muted" style="margin-top: 5px; font-size: 12px;">
@@ -55,7 +55,7 @@ export const addNumberEffect: EffectType<Model> = {
     if (!effect.nodeId) {
       errors.push("Please enter a node Id.");
     }
-    if (typeof effect.value !== "number") {
+    if (!effect.value) {
       errors.push("Please enter a value.");
     }
     if (hasMin !== hasMax) {
@@ -77,13 +77,41 @@ export const addNumberEffect: EffectType<Model> = {
       return {success: false};
     }
 
+    // I realize now, my hubris
+    // (Allowing for replacement with variables requires validation)
+
+    const value = Number(effect.value);
+
+    const min = effect.min != null && effect.min !== ""
+      ? Number(effect.min)
+      : undefined;
+
+    const max = effect.max != null && effect.max !== ""
+      ? Number(effect.max)
+      : undefined;
+
+    if (!Number.isFinite(value)) {
+      firebot.logger.warn(`Invalid number value: ${effect.value}`);
+      return { success: false };
+    }
+
+    if (min !== undefined && !Number.isFinite(min)) {
+      firebot.logger.warn(`Invalid minimum: ${effect.min}`);
+      return { success: false };
+    }
+
+    if (max !== undefined && !Number.isFinite(max)) {
+      firebot.logger.warn(`Invalid maximum: ${effect.max}`);
+      return { success: false };
+    }
+
     try {
       instance.addNumber(
         effect.nodeId,
-        effect.value,
+        value,
         // Angular doesn't use undefined?
-        effect.min ?? undefined,
-        effect.max ?? undefined
+        min,
+        max
       );
       return {success: true};
     }
