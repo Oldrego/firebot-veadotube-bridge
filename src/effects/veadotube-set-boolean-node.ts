@@ -1,5 +1,6 @@
 import type { EffectType } from "@crowbartools/firebot-types";
 import { veadotubeController } from "../integration";
+import { cleanBool } from "../veadotube/message";
 import firebot from "@crowbartools/firebot-types";
 
 type Model = { instanceName: string; nodeId: string; value: boolean | string };
@@ -48,20 +49,14 @@ export const setBooleanEffect: EffectType<Model> = {
       return {success: false};
     }
 
-    let value;
+    let value = cleanBool(effect.value);
 
-    if (effect.value === "true" || effect.value === true || effect.value === "1") {
-      value = true;
-    }
-    else if (effect.value === "false" || effect.value === false || effect.value === "0") {
-      value = false;
-    }
-    else {
+    if (value === undefined) {
       firebot.logger.warn(`Invalid boolean value: ${effect.value}`);
-      return { success: false };
+      return { success: false }
     }
 
     instance.setBoolean(effect.nodeId, value);
-    return {success: true}
+    return { success: true };
   }
 };

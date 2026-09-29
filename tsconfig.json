@@ -13,5 +13,5 @@
         "experimentalDecorators": true,
         "skipLibCheck": true
     },
-    "include": ["./src/**/*", "./tsdown.config.mts"]
+    "include": ["./src/**/*", "./tsdown.config.mts", "manifest.config.ts"]
 }

@@ -43,7 +43,7 @@ export const addNumberEffect: EffectType<Model> = {
         </div>
       </div>
       <p class="muted" style="margin-top: 5px; font-size: 12px;">
-        Fill in both or neither. Leave blank to send only the value.
+        Leave blank to send only the value
       </p>
     </eos-container>
   `,
@@ -76,9 +76,6 @@ export const addNumberEffect: EffectType<Model> = {
         : firebot.logger.info(`Instance not found`);
       return {success: false};
     }
-
-    // I realize now, my hubris
-    // (Allowing for replacement with variables requires validation)
 
     const value = Number(effect.value);
 

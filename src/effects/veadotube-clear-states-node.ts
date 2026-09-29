@@ -33,9 +33,6 @@ export const clearStatesEffect: EffectType<Model> = {
     if (!effect.nodeId) {
       errors.push("Please enter a node Id.");
     }
-    if (typeof effect.value !== "string") {
-      errors.push("Please enter a value.");
-    }
 
     return errors;
   },

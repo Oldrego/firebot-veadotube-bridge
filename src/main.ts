@@ -3,7 +3,7 @@ import { veadotubeEventSources } from "./events/index";
 import { veadotubeIntegration } from "./integration";
 import { veadotubeEffects } from "./effects/index";
 import { veadotubeFilters } from "./events/index";
-
+import manifest from "../manifest.config"
 
 type Params = {
   message: string;
@@ -11,16 +11,12 @@ type Params = {
 
 const plugin: Plugin<Params> = {
   manifest: {
-    name: "Firebot-Veadotube Bridge",
-    description: "A plugin that allows for Firebot to affect websocket nodes in Veadotube",
-    icon: {
-      type: "font-awesome",
-      name: "fa-paw",
-      color: "#AD1818",
-    },
-    version: "1.0.1",
-    author: "Oldrego",
-    minimumFirebotVersion: { major: 5, minor: 67 }
+    name: manifest.name,
+    description: manifest.description,
+    icon: manifest.icon,
+    version: manifest.version,
+    author: manifest.author,
+    minimumFirebotVersion: manifest.minimumFirebotVersion
   },
   registers: {
     integrations: [veadotubeIntegration],

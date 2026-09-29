@@ -18,11 +18,11 @@ If you want to build the file yourself, clone the repo into a folder of your cho
 npm run build
 ```
 
-The compiled plugin is written inside the `dist` folder. I used node v26.8.1, and npm 11.19.0.
+The compiled plugin is written inside the `dist/` folder. I used node v26.8.1, and npm 11.19.0. If you want to change some timings and behaviors of the underlying instance connection logic, you can edit some of the constants within `constants.ts` and rebuild using the command. (I'll try to make these options you can mess with inside of firebot... one day.)
 
 ### Features
 
-Is able to do the following for all three websocket node types:
+It's able to do the following for all three websocket node types:
 
 - Get a boolean node
 - Set a boolean node

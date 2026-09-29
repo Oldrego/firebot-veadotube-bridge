@@ -17,19 +17,19 @@ export const veadotubeEventSource: EventSource = {
     {
       id: INSTANCE_CONNECTION_CHANGED_EVENT_ID,
       name: "Instance Connection Changed",
-      description: "A Veadotube instance was connected or disconnected",
+      description: "A veadotube instance was connected or disconnected",
       cached: false
     },
     {
       id: NODE_LIST_CHANGED_EVENT_ID,
       name: "Node List Changed",
-      description: "The list of WebSocket nodes within a VeadoTube instance changed",
+      description: "The list of websocket nodes within a veadotube instance changed",
       cached: false
     },
     {
       id: NODE_CHANGED_EVENT_ID,
       name: "Node Changed",
-      description: "A node within a VeadoTube instance changed",
+      description: "A node within a veadotube instance changed",
       cached: false
     },
   ]
