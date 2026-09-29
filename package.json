@@ -1,13 +1,16 @@
 {
   "name": "oldrego-veadotube",
-  "pluginOutputName": "Veadotube-Firebot Bridge",
-  "version": "1.0.0",
+  "type": "module",
+  "pluginOutputName": "Firebot-Veadotube-Bridge",
+  "version": "1.0.2",
   "description": "Adds Veadotube WebSocket integration to Firebot",
   "main": "",
   "scripts": {
     "build": "tsdown",
     "build:dev": "npm run build && npm run copy",
-    "copy": "node ./scripts/copy-build.js",
+    "build:all": "npm run build && npm run copy && npm run manifest",
+    "copy": "node ./scripts/copy-build.cjs",
+    "manifest": "node ./scripts/make-manifest.mjs",
     "test": "jest"
   },
   "author": "Oldrego",

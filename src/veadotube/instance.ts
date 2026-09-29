@@ -39,8 +39,6 @@ export class VeadotubeInstance extends EventEmitter {
   private socket?: WebSocket;
   private newSocket?: WebSocket;
 
-  private shouldListenNodes = false;
-
   private shouldReconnect = true;
   private reconnection?: Promise<void>;
 
@@ -142,10 +140,27 @@ export class VeadotubeInstance extends EventEmitter {
 
     try {
       this.nodes = await this.getNodes();
+      this.emit("logEvent", {
+        origin: this.name, type: "info", message:`
+        Name: ${this.name}
+        Id: ${this.id}
+        Version: ${this.version}
+        Server: ${this.server}
+        Time: ${this.time}
+        Nodes: \n${this.nodes.map((node) => `{${node.id}, ${node.name}, ${node.type}}`).join(`,\n`)}`
+      });
     }
     catch (error) {
-      // This also occurs when there are no nodes within the instance (like in a new project).
+      // This also occurs when there are no websocket nodes within the instance (like in a new project).
       // Let it continue, it will update later
+      this.emit("logEvent", {
+        origin: this.name, type: "info", message:`
+        Name: ${this.name}
+        Id: ${this.id}
+        Version: ${this.version}
+        Server: ${this.server}
+        Time: ${this.time}`
+      });
       this.emit("logEvent", { origin: this.name, type: "warn", message: `Unable to get node list: ${error} (Is this a new project?)` });
     }
     try {

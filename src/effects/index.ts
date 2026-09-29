@@ -15,7 +15,7 @@ import { popStateEffect } from "./veadotube-pop-states-node";
 import { toggleStateEffect } from "./veadotube-toggle-states-node";
 import { clearStatesEffect } from "./veadotube-clear-states-node";
 import { marryStateEffect } from "./veadotube-marry-states-node";
-
+import { getListEffect } from "./veadotube-get-list";
 
 export const veadotubeEffects = [
   getBooleanEffect,
@@ -34,5 +34,6 @@ export const veadotubeEffects = [
   popStateEffect,
   toggleStateEffect,
   clearStatesEffect,
-  marryStateEffect
+  marryStateEffect,
+  getListEffect
 ]

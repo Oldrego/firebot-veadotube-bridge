@@ -5,11 +5,12 @@ import {
   nodeListChanged,
   nodeChanged,
 } from "./source";
+import { cleanBool } from "../veadotube/message";
 
 export const instanceNameFilter: EventFilter = firebot.factories.eventFilters.createTextFilter({
   id: "veadotube:instance-name",
-  name: "Veadotube Instance Name",
-  description: "Filter by the Veadotube Instance Name",
+  name: "Instance Name",
+  description: "Filter by the instance name",
   events: [
     instanceConnectionChanged,
     nodeListChanged,
@@ -21,7 +22,7 @@ export const instanceNameFilter: EventFilter = firebot.factories.eventFilters.cr
 export const nodeIdFilter: EventFilter = firebot.factories.eventFilters.createTextFilter({
   id: "veadotube:node-id",
   name: "Node Id",
-  description: "Filter by the Websocket Node Id",
+  description: "Filter by the websocket node Id",
   events: [
     nodeListChanged,
     nodeChanged
@@ -32,7 +33,7 @@ export const nodeIdFilter: EventFilter = firebot.factories.eventFilters.createTe
 export const typeFilter: EventFilter = firebot.factories.eventFilters.createPresetFilter({
   id: "veadotube:type",
   name: "Node Type",
-  description: "Filter by the Type of Websocket Node",
+  description: "Filter by the type of websocket node",
   events: [
     nodeListChanged,
     nodeChanged
@@ -47,7 +48,7 @@ export const typeFilter: EventFilter = firebot.factories.eventFilters.createPres
 
 export const addedOrRemovedFilter: EventFilter = firebot.factories.eventFilters.createPresetFilter({
   id: "veadotube:added-or-removed",
-  name: "Added Or Removed",
+  name: "Change Type",
   description: "Filter by whether something was added or removed",
   events: [
     instanceConnectionChanged,
@@ -60,19 +61,34 @@ export const addedOrRemovedFilter: EventFilter = firebot.factories.eventFilters.
   ]
 });
 
-export const booleanPayloadFilter: EventFilter = firebot.factories.eventFilters.createPresetFilter({
+export const booleanPayloadFilter: EventFilter = {
   id: "veadotube:boolean-payload",
   name: "Boolean",
   description: "Filter by a boolean payload of a node change that occurred",
   events: [
     nodeChanged
   ],
-  eventMetaKey: "payload",
+  comparisonTypes: [
+    "is",
+    "is not" // funny
+  ],
+  valueType: "preset",
+  // The preset values did not parse properly without a predicate
   presetValues: () => [
-    { value: true, display: "True" },
-    { value: false, display: "False" }
-  ]
-});
+    {value: "true", display: "True"},
+    {value: "false", display: "False"},
+  ],
+  predicate: (filterSettings, eventData) => {
+    switch (filterSettings.comparisonType) {
+      case "is":
+        return cleanBool(filterSettings.value) === eventData.eventMeta.payload;
+      case "is not":
+        return cleanBool(filterSettings.value) !== eventData.eventMeta.payload;
+      default:
+        return false;
+    }
+  }
+};
 
 export const numberPayloadFilter: EventFilter = firebot.factories.eventFilters.createNumberFilter({
   id: "veadotube:number-payload",

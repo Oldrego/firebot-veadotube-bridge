@@ -190,7 +190,7 @@ export type ReceivedStateEventPayload =
   | ReceivedStateEventThumbPayload
   | ReceivedStateEventPeekPayload;
 
-type ReceivedStateEventListPayload = {
+export type ReceivedStateEventListPayload = {
     event: "list";
     states: StateEvent[]
   }
@@ -402,4 +402,12 @@ export function cleanPayload(message: ReceivedMessage): CleanedPayload {
   }
 
   throw new Error(`Unknown message: ${message.channel}: ${JSON.stringify(message.json)}`);
+}
+
+export function cleanBool(value: unknown): boolean | undefined {
+  if (value === true || value === "true" || value === 1 || value === "1") return true;
+
+  if (value === false || value === "false" || value === 0 || value === "0") return false;
+
+  return undefined;
 }

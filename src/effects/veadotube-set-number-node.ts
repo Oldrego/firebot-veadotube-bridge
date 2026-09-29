@@ -43,7 +43,7 @@ export const setNumberEffect: EffectType<Model> = {
         </div>
       </div>
       <p class="muted" style="margin-top: 5px; font-size: 12px;">
-        Fill in both or neither. Leave blank to send only the value.
+        Leave blank to send only the value
       </p>
     </eos-container>
   `,
