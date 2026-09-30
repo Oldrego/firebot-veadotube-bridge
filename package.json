@@ -11,6 +11,7 @@
     "build:all": "npm run build && npm run copy && npm run manifest",
     "copy": "node ./scripts/copy-build.cjs",
     "manifest": "node ./scripts/make-manifest.mjs",
+    "icon": "node ./scripts/convert-icon.mjs",
     "test": "jest"
   },
   "author": "Oldrego",
