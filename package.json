@@ -2,7 +2,7 @@
   "name": "oldrego-veadotube",
   "type": "module",
   "pluginOutputName": "Firebot-Veadotube-Bridge",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Adds Veadotube WebSocket integration to Firebot",
   "main": "",
   "scripts": {
