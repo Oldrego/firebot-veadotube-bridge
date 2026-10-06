@@ -1,6 +1,7 @@
 import firebot from "@crowbartools/firebot-types";
 import EventEmitter from "node:events";
 import type { Integration, IntegrationController, IntegrationData } from "@crowbartools/firebot-types";
+import type { connectionEventData, nodeEventData, nodeListEventData, logEventData } from "./types/data";
 import { VeadotubeManager } from "./veadotube/manager";
 import {
   EVENT_SOURCE_ID,
@@ -9,10 +10,13 @@ import {
   INSTANCE_CONNECTION_CHANGED_EVENT_ID
 } from "./events/source";
 
-export const INTEGRATION_ID = "veadotube";
+export const VEADOTUBE_INTEGRATION_ID = "oldrego:veadotube";
 
 type VeadotubeParams = {
-  connection: { directory: string };
+  connection: {
+    autostart: boolean;
+    directory: string;
+  };
 };
 
 class VeadotubeIntegrationController
@@ -22,7 +26,10 @@ class VeadotubeIntegrationController
   manager: VeadotubeManager | null = null;
 
   async init(linked: boolean, integrationData: IntegrationData<VeadotubeParams>) {
-    // Skip! I think. (It's localhost.)
+    linked = true; // There isn't an account to link
+    if (integrationData.userSettings?.connection?.autostart) {
+      this.connect(integrationData);
+    }
   }
 
   async connect(integrationData: IntegrationData<VeadotubeParams>) {
@@ -39,7 +46,7 @@ class VeadotubeIntegrationController
     this.manager.on("connectionEvent", (event) => {
       firebot.events.trigger(EVENT_SOURCE_ID, INSTANCE_CONNECTION_CHANGED_EVENT_ID, event);
     });
-    this.manager.on("logEvent", (event) => {
+    this.manager.on("logEvent", (event: logEventData) => {
            if (event.type === "debug") firebot.logger.debug(`[${event.origin}]: ${event.message}`);
       else if (event.type === "error") firebot.logger.error(`[${event.origin}]: ${event.message}`);
       else if (event.type === "info")  firebot.logger.info( `[${event.origin}]: ${event.message}`);
@@ -49,7 +56,7 @@ class VeadotubeIntegrationController
     try {
       await this.manager.start();
       this.connected = true;
-      this.emit("connected", INTEGRATION_ID);
+      this.emit("connected", VEADOTUBE_INTEGRATION_ID);
       firebot.logger.info(`[veadotube]: Connected. Found ${this.manager.getInstances().length} instance(s)`);
     }
     catch (error) {
@@ -64,7 +71,14 @@ class VeadotubeIntegrationController
     await this.manager?.stop();
     this.manager = null;
     this.connected = false;
-    this.emit("disconnected", INTEGRATION_ID);
+    this.emit("disconnected", VEADOTUBE_INTEGRATION_ID);
+  }
+
+  async onUserSettingsUpdate(integrationData: IntegrationData<VeadotubeParams>) {
+    if (this.connected) {
+      await this.disconnect();
+      this.connect(integrationData);
+    }
   }
 }
 
@@ -72,7 +86,7 @@ export const veadotubeController = new VeadotubeIntegrationController();
 
 export const veadotubeIntegration: Integration<VeadotubeParams> = {
   definition: {
-    id: INTEGRATION_ID,
+    id: VEADOTUBE_INTEGRATION_ID,
     name: "Veadotube",
     description: "Control running veadotube instances",
     connectionToggle: true,
@@ -82,11 +96,19 @@ export const veadotubeIntegration: Integration<VeadotubeParams> = {
       connection: {
         title: "Connection",
         settings: {
+          autostart: {
+            type: "boolean",
+            title: "Autostart on Launch",
+            description: "Automatically start the integration when Firebot launches",
+            tip: "Enabling this setting may cause problems with Toggle Connection effects",
+            default: false,
+            useSwitch: true
+          },
           directory: {
             name: "directory",
             type: "filepath",
-            title: "veadotube instances directory",
-            tip: "Leave blank to use the default (~/.veadotube/instances). It's usually there",
+            title: "Veadotube Instances Directory",
+            tip: "Leave blank to use the default location Veadotube stores instances in (~/.veadotube/instances)",
             fileOptions: {
               directoryOnly: true,
               filters: [],

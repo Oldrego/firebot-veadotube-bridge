@@ -3,6 +3,7 @@ import { veadotubeEventSources } from "./events/index";
 import { veadotubeIntegration } from "./integration";
 import { veadotubeEffects } from "./effects/index";
 import { veadotubeFilters } from "./events/index";
+import { veadotubeVariables } from "./variables";
 import manifest from "../manifest.config"
 
 type Params = {
@@ -22,7 +23,8 @@ const plugin: Plugin<Params> = {
     integrations: [veadotubeIntegration],
     eventSources: veadotubeEventSources,
     effects: veadotubeEffects,
-    filters: veadotubeFilters
+    filters: veadotubeFilters,
+    variables: veadotubeVariables
   }
 };
 

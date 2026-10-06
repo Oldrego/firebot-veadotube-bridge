@@ -1,6 +1,6 @@
 import type { EffectType } from "@crowbartools/firebot-types";
 import { veadotubeController } from "../integration";
-import { cleanBool } from "../veadotube/message";
+import { cleanBool } from "../veadotube/util";
 import firebot from "@crowbartools/firebot-types";
 
 type Model = { instanceName: string; nodeId: string; value: boolean | string };

@@ -5,7 +5,7 @@ import {
   nodeListChanged,
   nodeChanged,
 } from "./source";
-import { cleanBool } from "../veadotube/message";
+import { cleanBool } from "../veadotube/util";
 
 export const instanceNameFilter: EventFilter = firebot.factories.eventFilters.createTextFilter({
   id: "veadotube:instance-name",
