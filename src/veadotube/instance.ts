@@ -1,9 +1,4 @@
 import {
-  parseMessage,
-  createMessage,
-  messageKey,
-  nodeKey,
-  cleanPayload,
   SentMessage,
   ReceivedMessage,
   ReceivedNodesListMessage,
@@ -15,7 +10,14 @@ import {
   StateEventListResponse,
   StateEventThumbResponse,
   StateEventPeekResponse,
-} from "./message";
+} from "../types/message";
+import {
+  parseMessage,
+  createMessage,
+  messageKey,
+  nodeKey,
+  cleanPayload
+} from "./util";
 import EventEmitter from "node:events";
 import WebSocket from "ws"
 import {
